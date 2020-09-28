@@ -13,29 +13,14 @@ const { constants } = require("buffer");
 
 const teamMembers = [];
 
-// After the user has input all employees desired, call the `render` function (required
-// above) and pass in an array containing all employee objects; the `render` function will
-// generate and return a block of HTML including templated divs for each employee!
+init();
 
-// After you have your html, you're now ready to create an HTML file using the HTML
-// returned from the `render` function. Now write it to a file named `team.html` in the
-// `output` folder. You can use the variable `outputPath` above target this location.
-// Hint: you may need to check if the `output` folder exists and create it if it
-// does not.
-
-// HINT: each employee type (manager, engineer, or intern) has slightly different
-// information; write your code to ask different questions via inquirer depending on
-// employee type.
-
-// HINT: make sure to build out your classes first! Remember that your Manager, Engineer,
-// and Intern classes should all extend from a class named Employee; see the directions
-// for further information. Be sure to test out each class and verify it generates an
-// object with the correct structure and methods. This structure will be crucial in order
-// for the provided `render` function to work! ```
-
-console.log("\x1b[36m","Starting Template Engine, Answer the Following Questions");
-getTeamInfo()
-.then(value => console.log(render(value)));
+function init() {
+    console.log("\x1b[36m","Starting Template Engine, Answer the Following Questions");
+    getTeamInfo()
+    .then(value =>  render(value))
+    .then(htmlValue => writeToFile(htmlValue));
+}
 
 function getTeamInfo() {
     return new Promise(function (resolve, reject) {
@@ -150,5 +135,28 @@ function getTeamInfo() {
                     reject(Error(`Undefined Role: ${role} Selected, With Response: ${JSON.stringify(values)} Please Send Stack Trace and Create Issue at: https://github.com/SCastanedaMunoz/Template-Engine/issues`));
             }
         }
+    });
+}
+
+function writeToFile(data) {
+    if (!fs.existsSync(OUTPUT_DIR)) {
+        fs.mkdir(OUTPUT_DIR, err => {
+            if (err) {
+                throw Error(err);
+            }
+        });
+    }
+
+    fs.copyFile("./templates/style.css", path.join(OUTPUT_DIR, "style.css"), err => {
+        if (err) {
+            throw Error(err);
+        }
+    });
+
+    fs.writeFile(outputPath, data, "utf-8", err => {
+        if (err) {
+            throw Error(err);
+        }
+        console.log(`Team Templated saved at ${outputPath}`);
     });
 }
