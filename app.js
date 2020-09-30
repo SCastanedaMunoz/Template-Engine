@@ -14,6 +14,7 @@ const { constants } = require("buffer");
 let hasManager = false;
 
 const teamMembers = [];
+const ids = [];
 
 init();
 
@@ -101,7 +102,11 @@ function getTeamInfo() {
         
                         if(input < 0)
                             return 'ID Must be Greater or Equal 0'
-        
+
+                        if(ids.indexOf(input) >= 0)
+                            return 'ID has Already been Given to Another Team Member'
+
+                        ids.push(input);
                         return true;
                     }
                 },
