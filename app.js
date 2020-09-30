@@ -11,12 +11,14 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 const render = require("./lib/htmlRenderer");
 const { constants } = require("buffer");
 
+let hasManager = false;
+
 const teamMembers = [];
 
 init();
 
 function init() {
-    console.log("\x1b[36m","Starting Template Engine, Answer the Following Questions");
+    console.log("\x1b[37m\x1b[1m","***Starting Template Engine, Answer the Following Questions***");
     getTeamInfo()
     .then(value =>  render(value))
     .then(htmlValue => writeToFile(htmlValue));
@@ -37,12 +39,24 @@ function getTeamInfo() {
             ]
         };
 
-        inquirer
-        .prompt(roleQuestion)
-        .then(response => {
-            role = response.role;
-            return inquirer.prompt(getRoleBasedQuestions(role));
-        })
+        let questionsResponse;
+        
+        if(hasManager) {
+            questionsResponse = inquirer
+            .prompt(roleQuestion)
+            .then(response => {
+                role = response.role;
+                return inquirer.prompt(getRoleBasedQuestions(role));
+            });
+        }
+        else {
+            console.log("\x1b[33m\x1b[1m", "**It Seems Your Team is Missing a Manager, Let's Start Adding One!**")
+            role = "Manager";
+            questionsResponse = inquirer.prompt(getRoleBasedQuestions(role));
+            hasManager = true;
+        }
+
+        questionsResponse
         .then(roleBasedResponse => {
             teamMembers.push(getTeamMember(role, roleBasedResponse));
 
@@ -76,17 +90,44 @@ function getTeamInfo() {
                 {
                     type: "input",
                     message: idMessage,
-                    name: "id"
+                    name: "id",
+                    validate: async input => {
+
+                        if(!input || input.trim().length == 0)
+                            return 'ID for Team Member Must be Provided'
+
+                        if(isNaN(input))
+                            return 'ID Must be a Numeric Value';
+        
+                        if(input < 0)
+                            return 'ID Must be Greater or Equal 0'
+        
+                        return true;
+                    }
                 },
                 {
                     type: "input",
                     message: nameMessage,
-                    name: "name"
+                    name: "name",
+                    validate: async input => {
+
+                        if(!input || input.trim().length == 0)
+                            return 'Name for Team Member Must be Provided'
+        
+                        return true;
+                    }
                 },
                 {
                     type: "input",
                     message: emailMessage,
-                    name: "email"
+                    name: "email",
+                    validate: async input => {
+                        const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                        if(!re.test(input.toLowerCase()))
+                            return 'Email Should be a Valid Email Address'
+        
+                        return true;
+                    }
                 },
             ];
 
@@ -97,7 +138,14 @@ function getTeamInfo() {
                         {
                             type: "input",
                             message: "Enter the Intern's School",
-                            name: "school"
+                            name: "school",
+                            validate: async input => {
+
+                                if(!input || input.trim().length == 0)
+                                    return 'School for Intern Must be Provided'
+                
+                                return true;
+                            }
                         }
                     ];
                 case "Engineer":
@@ -106,7 +154,14 @@ function getTeamInfo() {
                         {
                             type: "input",
                             message: "Enter the Engineer's GitHub",
-                            name: "github"
+                            name: "github",
+                            validate: async input => {
+
+                                if(!input || input.trim().length == 0)
+                                    return 'GitHub Username for Engineer Must be Provided'
+                
+                                return true;
+                            }
                         }
                     ];
                 case "Manager":
@@ -115,7 +170,20 @@ function getTeamInfo() {
                         {
                             type: "input",
                             message: "Enter the Manager's Office Number",
-                            name: "officeNumber"
+                            name: "officeNumber",
+                            validate: async input => {
+
+                                if(!input || input.trim().length == 0)
+                                    return 'Office Number for Team Member Must be Provided'
+        
+                                if(isNaN(input))
+                                    return 'Office Number Must be a Numeric Value';
+                
+                                if(input < 0)
+                                    return 'Office Number Must be Greater or Equal 0'
+                
+                                return true;
+                            }
                         }
                     ];
                 default:
@@ -157,6 +225,6 @@ function writeToFile(data) {
         if (err) {
             throw Error(err);
         }
-        console.log(`Team Templated saved at ${outputPath}`);
+        console.log("\x1b[32m\x1b[1m", `***Team Templated saved at ${outputPath}***`);
     });
 }
