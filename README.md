@@ -1,175 +1,58 @@
-# Unit 10 OOP Homework: Template Engine - Employee Summary
-
-One of the most important aspects of programming is writing code that is readable, reliable, and maintainable. Oftentimes, *how* we design our code is just as important as the code itself. In this homework assignment, your challenge is to build a Node CLI that takes in information about employees and generates an HTML webpage that displays summaries for each person. Since testing is a key piece in making code maintainable, you will also be ensuring that all unit tests pass.
-
-
-## Instructions
-
-You will build a software engineering team generator command line application. The application will prompt the user for information about the team manager and then information about the team members. The user can input any number of team members, and they may be a mix of engineers and interns. This assignment must also pass all unit tests. When the user has completed building the team, the application will create an HTML file that displays a nicely formatted team roster based on the information provided by the user. Following the [common templates for user stories](https://en.wikipedia.org/wiki/User_story#Common_templates), we can frame this challenge as follows:
-
-```
-As a manager
-I want to generate a webpage that displays my team's basic info
-so that I have quick access to emails and GitHub profiles
-```
-
-How do you deliver this? Here are some guidelines:
-
-* Use the [Inquirer npm package](https://github.com/SBoudrias/Inquirer.js/) to prompt the user for their email, id, and specific information based on their role with the company. For instance, an intern may provide their school, whereas an engineer may provide their GitHub username.
-
-* Your app will run as a Node CLI to gather information about each employee.
-
-* Below is an example of what your application may look like. Remember, the styling is completely up to you so try to make it unique.
-
-![Employee Summary 1](./Assets/10-OOP-homework-demo-1.png)
-![Employee Summary 2](./Assets/10-OOP-homework-demo-2.png)
-
-In the `Develop` folder, there is a `package.json`, so make sure to `npm install`.
-
-The dependencies are, [jest](https://jestjs.io/) for running the provided tests, and [inquirer](https://www.npmjs.com/package/inquirer) for collecting input from the user.
-
-There are also unit tests to help you build the classes necessary.
-
-It is recommended that you follow this workflow:
-
-1. Run tests
-2. Create or update classes to pass a single test case
-3. Repeat
-
-🎗 Remember, you can run the tests at any time with `npm run test`
-
-It is recommended that you start with a directory structure that looks like this:
-
-```
-lib/           // classes and helper code
-output/        // rendered output
-templates/     // HTML template(s)
-test/          // jest tests
-  Employee.test.js
-  Engineer.test.js
-  Intern.test.js
-  Manager.test.js
-app.js         // Runs the application
-```
-
-### Hints
-
-* Create multiple HTML templates for each type of user. For example, you could use the following templates:
-
-  * `main.html`
-
-  * `engineer.html`
-  
-  * `intern.html`
-  
-  * `manager.html`
-
-* You will want to make your methods as pure as possible. This means try to make your methods simple so that they are easier to test.
-
-* The different employee types should all inherit some methods and properties from a base class of `Employee`.
-
-* In your HTML template files, you may want to add a placeholder character that helps your program identify where the dynamic markup begins and ends.
-
-## Minimum Requirements
-
-* Functional application.
-
-* GitHub repository with a unique name and a README describing the project.
-
-* User can use the CLI to generate an HTML page that displays information about their team.
-
-* All tests must pass.
-
-### Classes
-The project must have the these classes: `Employee`, `Manager`, `Engineer`,
-`Intern`. The tests for these classes in the `tests` directory must all pass.
-
-The first class is an `Employee` parent class with the following properties and
-methods:
-
-  * name
-  * id
-  * email
-  * getName()
-  * getId()
-  * getEmail()
-  * getRole() // Returns 'Employee'
-
-The other three classes will extend `Employee`. 
-
-In addition to `Employee`'s properties and methods, `Manager` will also have:
-
-  * officeNumber
-
-  * getRole() // Overridden to return 'Manager'
-
-In addition to `Employee`'s properties and methods, `Engineer` will also have:
-
-  * github  // GitHub username
-
-  * getGithub()
-
-  * getRole() // Overridden to return 'Engineer'
-
-In addition to `Employee`'s properties and methods, `Intern` will also have:
-
-  * school 
-
-  * getSchool()
-
-  * getRole() // Overridden to return 'Intern'
-
-### User input
-
-The project must prompt the user to build an engineering team. An engineering
-team consists of a manager, and any number of engineers and interns.
-
-### Roster output
-
-The project must generate a `team.html` page in the `output` directory, that displays a nicely formatted team roster. Each team member should display the following in no particular order:
-
-  * Name
-
-  * Role
-
-  * ID
-
-  * Role-specific property (School, link to GitHub profile, or office number)
-
-## Bonus
-
-* Use validation to ensure that the information provided is in the proper expected format.
-
-* Add the application to your portfolio.
-
-## Commit Early and Often
-
-One of the most important skills to master as a web developer is version control. Building the habit of committing via Git is important for two reasons:
-
-* Your commit history is a signal to employers that you are actively working on projects and learning new skills.
-
-* Your commit history allows you to revert your codebase in the event that you need to return to a previous state.
-
-Follow these guidelines for committing:
-
-* Make single-purpose commits for related changes to ensure a clean, manageable history. If you are fixing two issues, make two commits.
-
-* Write descriptive, meaningful commit messages so that you and anyone else looking at your repository can easily understand its history.
-
-* Don't commit half-done work, for the sake of your collaborators (and your future self!).
-
-* Test your application before you commit to ensure functionality at every step in the development process.
-
-We would like you to have well over 200 commits by graduation, so commit early and often!
-
-
-## Submission on BCS
-
-You are required to submit the following:
-
-* The URL of the GitHub repository
-
-* A video demonstrating the entirety of the app's functionality 
-
-- - -
-© 2019 Trilogy Education Services, a 2U, Inc. brand. All Rights Reserved.
+![License: ISC](https://img.shields.io/badge/License-ISC-blue.svg)
+
+# **Team Profile Generator**
+
+## **Description**
+Software engineering team generator command line application. The application prompts the user for information about the team manager and then information about other team members. Users can input an unlimited amount of team members, they can be a mix of Engineers, Managers or Interns. When the user completes building the team, the CLI application creates an HTML file that displays a nicely formatted team roster based on the information provided by the user.
+
+## **Table of Contents**
+* [Description](##Description)
+* [Installation](##Installation)
+* [Usage](##Usage)
+* [License](##License)
+* [Contributing](##Contributing)
+* [Tests](##Tests)
+* [Questions](##Questions)
+
+## **Installation**
+As of right now, the process to install ***Team Profile Generator*** is by downloading the Git Respository from the following GitHub Link: [Team Profile Generator Repo](https://github.com/SCastanedaMunoz/Template-Engine), after doing so, you will have to open the project on your terminal and run the npm i or npm install process. This will fetch and install any required npm packages in order to run the application. Since this CLI application has been built utilizing **Node.js** and **npm**, you will need to have such dev dependencies alreary installed in your project. ***README Generator*** was built using **Node 12.8.2** and **npm 6.14.5**. In the future, this app will be distributed via npm for a more easy download and usage.
+
+## **Usage**
+As mentioned before, this application is meant for building nicely formatted dashboards so team managers and members can properly visualize all members of a team and their information. Since this is a CLI application it would be troublesome to provide screenshot base usage directions, please follow the video for more information Here is a Video Walkthrough on how to use the app: [Video Walkthrough.](https://drive.google.com/file/d/1M4yuWK0EnRpK7FxjzW89TGU2qR9TFmu3/view?usp=sharing)
+
+## **License**
+
+This project is under the ISC License:
+
+    Copyright (C) 2020 Santiago Castaneda Munoz
+    
+    Permission to use, copy, modify, and/or distribute this software for any purpose with
+    or without fee is hereby granted, provided that the above copyright notice and this
+    permission notice appear in all copies.
+    
+    THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD
+    TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN 
+    NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+    CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA
+    OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION,
+    ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+
+## **Contributing**
+If you wish to contribute to the project, make sure to read the following guidelines:
+
+* Any found bugs should be reported to the repository Issues Tab.
+* If you wish your changes to be merged into the app, make sure to create well written, documented and testable code. ***Include Unit Tests***
+* If you wish to add a new feature, make sure to include *user stories* as how your feature will help the app. 
+* Create a pull request, after proper review it will be merged into the Git Repository
+
+## **Tests**
+As of right now, the only way to test the application is by running the node index.js file which triggers the app main functionality. Proper Unit Testing has been integrateg to enrue proper maintainability.
+
+## **Questions**
+If you have any questions regarding this app, feel free to contact me through my email, the [Team Profile Generator Repo](https://github.com/SCastanedaMunoz/Template-Engine). All questions will be answered in a reasonable amount of time.
+
+### ***GitHub Profile***
+https://github.com/SCastaneda Munoz
+
+### ***Email Contact***
+[santiagocm98@hotmail.com](mailto:santiagocm98@hotmail.com)
